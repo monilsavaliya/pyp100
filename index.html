@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PYP100 Course Material</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Course materials and tutorials for PYP100.">
+    <meta name="author" content="Monil">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+
+    
+    <style>
+    body {
+        background-image: url('https://imgs.search.brave.com/KtDO2B7GVofNI1pTk7NGPAlMNy2N3tswq_s--aT5xyk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/d2FsbHBhcGVyc2Fm/YXJpLmNvbS80OC82/MC8zcmZKQTUuanBn');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto', Arial, sans-serif;
+        color: white;
+    }
+
+    h1, h2 {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    h1 {
+        font-size: 3em;
+        color: #FFD700;
+        text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7), 0 0 20px #FF4500;
+        animation: glow 1.5s infinite alternate;
+        background: linear-gradient(90deg, #FF6347, #FFD700, #32CD32);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    h2 {
+        font-size: 2em;
+    }
+
+    .dropdown {
+        margin: 20px auto;
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #333;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        transition: margin-bottom 0.3s ease;
+        width: 90%; /* Adjust width for smaller screens */
+        max-width: 800px; /* Limit the maximum width */
+    }
+
+    .dropdown-header {
+        padding: 12px 20px;
+        font-size: 1.2em;
+        font-weight: bold;
+        background-color: #62a4e9;
+        color: white;
+        cursor: pointer;
+        text-align: center;
+        border-radius: 10px;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .dropdown-header:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+    .dropdown-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: rgba(26, 86, 135, 0.8);
+        transition: max-height 0.5s ease;
+    }
+
+    .dropdown-content.open {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    .dropdown-content a {
+        display: block;
+        padding: 10px;
+        color: white;
+        text-decoration: none;
+        text-align: center;
+        background-color: #0a5068;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .dropdown-content a:hover {
+        background-color: #0056b3;
+    }
+
+    .dropdown-content::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .dropdown-content::-webkit-scrollbar-thumb {
+        background-color: #62a4e9;
+        border-radius: 10px;
+    }
+
+    footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    /* Media Queries for Responsiveness */
+    @media (max-width: 768px) {
+        .dropdown-header {
+            font-size: 1em; /* Reduce font size for smaller screens */
+        }
+
+        .dropdown-content a {
+            font-size: 0.9em; /* Reduce link size for smaller screens */
+            padding: 8px; /* Reduce padding for smaller screens */
+        }
+
+        h1 {
+            font-size: 2em; /* Adjust heading size for smaller screens */
+        }
+
+        h2 {
+            font-size: 1.5em; /* Adjust subheading size for smaller screens */
+        }
+    }
+</style>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const outerDropdowns = document.querySelectorAll('.dropdown.outer');
+
+            outerDropdowns.forEach(outer => {
+                const outerHeader = outer.querySelector('.dropdown-header');
+                const outerContent = outer.querySelector('.dropdown-content');
+
+                outerHeader.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    const isOpen = outerContent.classList.contains('open');
+                    closeAllDropdowns();
+                    if (!isOpen) {
+                        outerContent.classList.add('open');
+                    }
+                });
+
+                const innerDropdowns = outer.querySelectorAll('.dropdown.inner');
+                innerDropdowns.forEach(inner => {
+                    const innerHeader = inner.querySelector('.dropdown-header');
+                    const innerContent = inner.querySelector('.dropdown-content');
+
+                    innerHeader.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const isOpen = innerContent.classList.contains('open');
+                        closeInnerDropdowns(outer);
+                        if (!isOpen) {
+                            innerContent.classList.add('open');
+                        }
+                    });
+
+                    const innerMostDropdowns = inner.querySelectorAll('.dropdown.inner-most');
+                    innerMostDropdowns.forEach(innerMost => {
+                        const innerMostHeader = innerMost.querySelector('.dropdown-header');
+                        const innerMostContent = innerMost.querySelector('.dropdown-content');
+
+                        innerMostHeader.addEventListener('click', (event) => {
+                            event.stopPropagation();
+                            const isOpen = innerMostContent.classList.contains('open');
+                            closeInnerMostDropdowns(inner);
+                            if (!isOpen) {
+                                innerMostContent.classList.add('open');
+                            }
+                        });
+                    });
+                });
+            });
+
+            function closeAllDropdowns() {
+                document.querySelectorAll('.dropdown-content').forEach(content => {
+                    content.classList.remove('open');
+                });
+            }
+
+            function closeInnerDropdowns(outer) {
+                outer.querySelectorAll('.dropdown.inner .dropdown-content').forEach(content => {
+                    content.classList.remove('open');
+                });
+            }
+
+            function closeInnerMostDropdowns(inner) {
+                inner.querySelectorAll('.dropdown.inner-most .dropdown-content').forEach(content => {
+                    content.classList.remove('open');
+                });
+            }
+
+            document.addEventListener('click', () => {
+                closeAllDropdowns();
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1><a href="https://dalla111.github.io/homepage/" ><img src="https://jwalamukhi.iitd.ac.in/images/Jwala_logo_extra_small_2.png" alt="Logo" ></a>PYP100 Course Material/2022 MODE</h1>
+    <div class="container">
+        <div class="section">
+            <div class="dropdown outer">
+                <div class="dropdown-header">BATCH A </div>
+                <div class="dropdown-content">
+                        <a href="https://drive.google.com/file/d/1RKPowNEYoAJfzAv6mA0503v5lCy_NiX_/view?usp=drive_link">
+                            Group_1_Electrical_Midterm_QuestionPaper.pdf
+                        </a>
+                        <a href="https://drive.google.com/file/d/1OSBIZxHWk-EKRtDtXXaU0TzVBLsZHFmG/view?usp=drive_link">
+                            Group_1_Optics_Major_QuestionPaper.pdf
+                        </a>
+                        <a href="https://drive.google.com/file/d/1tGwQ1NeXg5DKovDXQVdxsM4quF4pe5J8/view?usp=drive_link">
+                            Group_11_Electrical_Major_QuestionPaper.pdf
+                        </a>
+                        <a href="https://drive.google.com/file/d/1nb37R8TqINYHrrVTCgb7TRy8FNxIV37M/view?usp=drive_link">
+                            Group_11_Optics_Mid-term_Question_Paper.pdf
+                        </a>
+                        
+                
+                        
+                        
+                        
+                    </div>
+                    
+                   
+                </div>
+                <div class="dropdown outer">
+                    <div class="dropdown-header">EXPERIMENT MANUALS</div>
+                    <div class="dropdown-content">
+                        <a href="https://drive.google.com/file/d/15MrBShNbsAAPMa-lHCKdkNmmjgSLLvfp/view?usp=drive_link">Error_Analysis_and_Guide_to_minimizing_errors_1648131010376.pdf</a>
+                        <a href="https://drive.google.com/file/d/1fuqaFvwqmJW-2N0lGlnXkReme9-Qu1VP/view?usp=drive_link">Exp1_Charging_Plot_Correct_1648132873657.pdf</a>
+                        <a href="https://drive.google.com/file/d/1bu4L1g5ENC3zG_fihQ2U2MCMDpSyZ3GO/view?usp=drive_link">Exp1_Electrical_Manual_Charging___Discharging_of_capacitor.pdf</a>
+                        <a href="https://drive.google.com/file/d/1bPGuB86CtcQsQMOhQtxOkpO29sHtXmtz/view?usp=drive_link">Exp1_Erros_Data_1648130996421.pdf</a>
+                        <a href="https://drive.google.com/file/d/1Dnthoqp0M_0kMGuyeG86PIJ9Y-jeRJXe/view?usp=drive_link">Exp2_Electrical_Manual_Study_of_Power-Transfer_Theorem.pdf</a>
+                        <a href="https://drive.google.com/file/d/1bHpWNEReWHE6mvlpfTF_vb8VNiUZldIW/view?usp=drive_link">Exp2_Erros_Data_1648131119855.pdf</a>
+                        <a href="https://drive.google.com/file/d/1L2KaZ0CSjICXl7PT-39dy2FkjOV22AkU/view?usp=drive_link">Exp3_Electrical_Manual_1_LCR_Study.pdf</a>
+                        <a href="https://drive.google.com/file/d/1sJLUPIZto4vOutAGCzBuOHUMWtoKOhsQ/view?usp=drive_link">Exp3_Electrical_Manual_2_Phase-Measurement.pdf</a>
+                        <a href="https://drive.google.com/file/d/1bUN96JifCmBhaNhaD8ZVAwc9xH2v12k8/view?usp=drive_link">Exp3_IMPORTANT_Notice_1648131268852.pdf</a>
+                        <a href="https://drive.google.com/file/d/192YZkfuGDUHszOOE_JKSFeQMmG_xIo8U/view?usp=drive_link">Exp4_Electrical_Manual_Helmholtz_coil.pdf</a>
+                        <a href="https://drive.google.com/file/d/1N90__e10C723n5hmO5B5fEmsnW85yxdM/view?usp=drive_link">Exp5_Electrical_Manual_Study_of_EMI.pdf</a>
+                
+                        </div>
+                        
+                       
+                    </div>
+        
+                    <div class="dropdown outer">
+                        <div class="dropdown-header">Minors</div>
+                        <div class="dropdown-content">
+                            
+                            <a href="https://drive.google.com/file/d/1XTDEvVHdu3Cjkd70-RwqstSz6OD-KzSA/view?usp=drive_link">Quiz_Electrical_Group_6.pdf</a>
+                            <a href="https://drive.google.com/file/d/17aCQKEHODjxwiIX0fvDmvNbRsxB1ld73/view?usp=drive_link">Quiz_Optics_Group_1_to_20.pdf</a>
+                            <a href="https://drive.google.com/file/d/1cBd0fWMPT342uADsfK-J4yv24lE85BM4/view?usp=drive_link">WhatsApp_Image_2022-05-02_at_8.45.00_PM.jpeg</a>
+                            
+                        </div>
+                    </div>
+                    <div class="dropdown outer">
+                        <div class="dropdown-header">Optics Manuals</div>
+                        <div class="dropdown-content">
+                            
+                            <a href="https://drive.google.com/file/d/1JRouHDNPUXh7sMNteq9QReR1sFjFO74x/view?usp=drive_link">Error_Analysis_and_Guide_to_minimizing_errors.pdf</a>
+                            <a href="https://drive.google.com/file/d/18o9wiEZoolY0CQuyv1JtY6lWdYuXc-tB/view?usp=drive_link">Optics_Exp_1_Manual_Cauchy_Constt.pdf</a>
+                            <a href="https://drive.google.com/file/d/1T62EArgOVCihv6-xxWX6lxyZyboWZHju/view?usp=drive_link">Optics_Exp_2_Manual.pdf</a>
+                            <a href="https://drive.google.com/file/d/1hMqDj4nUAJtIPIjl2dWMDgVcPxl6Mxh4/view?usp=drive_link">Optics_Exp_3_Manual.pdf</a>
+                            <a href="https://drive.google.com/file/d/1TrQukRQC8ctxBAGPH4Ui93414kS8HFkl/view?usp=drive_link">Optics_Exp_4_Manual.pdf</a>
+                            <a href="https://drive.google.com/file/d/1Zs5WMDGIdnZGe1RBaQ91NasdiiLJb2D2/view?usp=drive_link">Optics_Exp_5_Error_Analysis.pdf</a>
+                            <a href="https://drive.google.com/file/d/1g8QuTlfJ59C9QpuhHK2R-NuUyrgVWIq6/view?usp=drive_link">Optics_Exp_5_Manual.pdf</a>
+                            <a href="https://drive.google.com/file/d/1mo_Ogql3o2UbTdrR9fDaXS9M6QJI6I7a/view?usp=drive_link">Spectrometer.pdf</a>
+                            <a href="https://drive.google.com/file/d/13WFe7Sh_VIqvnFq32sfjaR0wtC_KPuKC/view?usp=drive_link">Wavelengths_Exp_1.pdf</a>
+                            
+                        </div>
+                    </div>
+                    <div class="dropdown outer">
+                        <div class="dropdown-header">Experiment Manuals(along with necessary discussion)</div>
+                        <div class="dropdown-content">
+                            <a href="https://drive.google.com/file/d/15MrBShNbsAAPMa-lHCKdkNmmjgSLLvfp/view?usp=drive_link">Error_Analysis_and_Guide_to_minimizing_errors.pdf</a>
+                            <a href="https://drive.google.com/file/d/1fuqaFvwqmJW-2N0lGlnXkReme9-Qu1VP/view?usp=drive_link">Exp1_Charging_Plot_Correct.pdf</a>
+                            <a href="https://drive.google.com/file/d/1bu4L1g5ENC3zG_fihQ2U2MCMDpSyZ3GO/view?usp=drive_link">Exp1_Electrical_Manual_Charging_Discharging_of_capacitor.pdf</a>
+                            <a href="https://drive.google.com/file/d/1bPGuB86CtcQsQMOhQtxOkpO29sHtXmtz/view?usp=drive_link">Exp1_Errors_Data.pdf</a>
+                            <a href="https://drive.google.com/file/d/1Dnthoqp0M_0kMGuyeG86PIJ9Y-jeRJXe/view?usp=drive_link">Exp2_Electrical_Manual_Study_of_Power-Transfer_Theorem.pdf</a>
+                            <a href="https://drive.google.com/file/d/1bHpWNEReWHE6mvlpfTF_vb8VNiUZldIW/view?usp=drive_link">Exp2_Errors_Data.pdf</a>
+                            <a href="https://drive.google.com/file/d/1L2KaZ0CSjICXl7PT-39dy2FkjOV22AkU/view?usp=drive_link">Exp3_Electrical_Manual_1_LCR_Study.pdf</a>
+                            <a href="https://drive.google.com/file/d/1sJLUPIZto4vOutAGCzBuOHUMWtoKOhsQ/view?usp=drive_link">Exp3_Electrical_Manual_2_Phase-Measurement.pdf</a>
+                            <a href="https://drive.google.com/file/d/1bUN96JifCmBhaNhaD8ZVAwc9xH2v12k8/view?usp=drive_link">Exp3_IMPORTANT_Notice.pdf</a>
+                            <a href="https://drive.google.com/file/d/192YZkfuGDUHszOOE_JKSFeQMmG_xIo8U/view?usp=drive_link">Exp4_Electrical_Manual_Helmholtz_coil.pdf</a>
+                            <a href="https://drive.google.com/file/d/1N90__e10C723n5hmO5B5fEmsnW85yxdM/view?usp=drive_link">Exp5_Electrical_Manual_Study_of_EMI.pdf</a>
+
+                        </div>
+                    </div>
+
+            
+            
+            
+            
+        </div>
+        <footer>
+            <p>&copy; ALL RIGHTS RESERVED 2022 MODE</p>
+            <p><a href="mailto:monilsavaliya416@gmail.com" style="color: white;">Contact for changes</a></p>
+        </footer>
+    </div>
+</body>
+</html>
